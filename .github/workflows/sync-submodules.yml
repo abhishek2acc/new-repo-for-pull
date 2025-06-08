@@ -22,22 +22,34 @@ jobs:
           git config --global user.name "GitHub Action"
           git config --global user.email "abhishekhsaini7@gmail.com"
 
-      - name: Rewrite submodule URLs with token (if secret is set)
-        env:
-          SUBMODULE_PAT: ${{ secrets.SUBMODULE_ACCESS_TOKEN }}
+      - name: Checkout Submodules
+        uses: actions/checkout@v3
+        with:
+          submodules: 'true'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+      - name: Update Submodules
         run: |
-          if [ -n "$SUBMODULE_PAT" ]; then
-            echo "Injecting token into .gitmodules..."
-            sed -i "s|https://github.com/|https://x-access-token:${SUBMODULE_PAT}@github.com/|g" .gitmodules
-            git submodule sync
-            git submodule update --init --recursive
-          else
-            echo "No submodule token provided. Assuming public or same-org private access."
-          fi
+          git submodule update --init --recursive
 
-      - name: Check which submodules changed (optional logging)
-        run: |
-          git submodule foreach 'echo "--- $name ---"; git status; git diff'
+
+
+      # - name: Rewrite submodule URLs with token (if secret is set)
+      #   env:
+      #     SUBMODULE_PAT: ${{ secrets.SUBMODULE_ACCESS_TOKEN }}
+      #   run: |
+      #     if [ -n "$SUBMODULE_PAT" ]; then
+      #       echo "Injecting token into .gitmodules..."
+      #       sed -i "s|https://github.com/|https://x-access-token:${SUBMODULE_PAT}@github.com/|g" .gitmodules
+      #       git submodule sync
+      #       git submodule update --init --recursive
+      #     else
+      #       echo "No submodule token provided. Assuming public or same-org private access."
+      #     fi
+
+      # - name: Check which submodules changed (optional logging)
+      #   run: |
+      #     git submodule foreach 'echo "--- $name ---"; git status; git diff'
 
       - name: Run code checks (replace this block as needed)
         run: |
