@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
-          token: ${{ secrets.SUBMODULE_ACCESS_TOKEN }}  # Only works if submodules are in same org/account.
+          token: ${{ secrets.SUBMODULE_ACCESS_TOKEN }} 
 
       - name: Set Git identity
         run: |
@@ -76,10 +76,10 @@ jobs:
           # mvn verify
           echo "Checks passed."
 
-      # - name: Push to mirror repo
-      #   env:
-      #     TARGET_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
-      #   run: |
-      #     echo "Pushing to mirror repository..."
-      #     git remote add mirror https://x-access-token:${{ secrets.TARGET_REPO_TOKEN }}@github.com/abhishek2acc/repo-tp-pull-content.git
-      #     git push mirror main --force
+      - name: Push to mirror repo
+        env:
+          TARGET_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
+        run: |
+          echo "Pushing to mirror repository..."
+          git remote add mirror https://x-access-token:${{ secrets.TARGET_REPO_TOKEN }}@github.com/abhishek2acc/repo-tp-pull-content.git
+          git push mirror main --force
