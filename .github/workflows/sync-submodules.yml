@@ -34,9 +34,18 @@ jobs:
       - name: Authenticate with GitHub
         run: |
           git config --global url."https://${{ secrets.SUBMODULE_ACCESS_TOKEN }}@github.com/".insteadOf "https://github.com/"
-      - name: Update Submodules
-        run: |
-          pwd
+      - name: Show working directory
+        run: pwd
+
+      - name: List files
+        run: ls -la
+
+      - name: Show Git branch
+        run: git branch
+
+      # - name: Update Submodules
+      #   run: |
+      #     git submodule update --init --recursive
 
 
 
