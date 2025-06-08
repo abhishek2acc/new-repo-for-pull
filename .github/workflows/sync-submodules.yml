@@ -1,0 +1,62 @@
+name: Sync Submodules and Mirror
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync-submodules:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout parent repo with submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Set up Git identity
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "abhishek@github.com"
+
+      - name: Update submodules to latest
+        run: |
+          git submodule update --remote --recursive
+          git status
+
+      - name: Detect changed submodules
+        id: detect
+        run: |
+          CHANGED=""
+          for module in $(git config --file .gitmodules --get-regexp path | awk '{ print $2 }'); do
+            git diff --quiet HEAD $module || CHANGED="$CHANGED $module"
+          done
+          echo "Changed submodules:$CHANGED"
+          echo "changed_modules=$CHANGED" >> $GITHUB_OUTPUT
+
+      - name: Run code check on changed modules
+        if: steps.detect.outputs.changed_modules != ''
+        run: |
+          for module in ${{ steps.detect.outputs.changed_modules }}; do
+            echo "🔍 Running code check for $module"
+            # Example scan: (replace this with your real script or check)
+            if [ -f "$module/code-check.sh" ]; then
+              bash "$module/code-check.sh"
+            else
+              echo "✅ No code-check.sh found in $module, skipping."
+            fi
+          done
+
+      - name: Commit updated submodules if needed
+        run: |
+          git add .
+          git commit -m "chore: updated submodules" || echo "No changes to commit."
+
+      - name: Push to mirror repo
+        env:
+          TARGET_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
+        run: |
+          git remote add mirror https://x-access-token:${{ secrets.TARGET_REPO_TOKEN }}@github.com/another-endpoint/reactor-repo.git
+          git push mirror main --force
