@@ -60,7 +60,7 @@ jobs:
       #       git submodule sync
       #       git submodule update --init --recursive
       #     else
-      #       echo "No submodule token provided. Assuming public or same-org private access."
+      #       echo "No submodule token provided. Assuming public or same-org private access.."
       #     fi
 
       - name: Check which submodules changed (optional logging)
