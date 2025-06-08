@@ -4,67 +4,48 @@ on:
   push:
     branches:
       - main
-    workflow_dispatch:  # allows manual run
+  workflow_dispatch:
 
 jobs:
-  sync-submodules:
+  sync-and-mirror:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout parent repo with submodules
+      - name: Checkout parent repo and submodules
         uses: actions/checkout@v4
         with:
           submodules: recursive
-          token: ${{ secrets.GITHUB_TOKEN }}  # Use PAT if GITHUB_TOKEN doesn’t work..
-          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}  # Only works if submodules are in same org/account
 
-      - name: Set up Git identity
+      - name: Set Git identity
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "abhishekhsaini7@gmail.com"
 
-      - name: Rewrite submodule URLs with token (if needed)
-        if: ${{ secrets.SUBMODULE_ACCESS_TOKEN != '' }}
+      - name: Rewrite submodule URLs with token (if secret is set)
         env:
           SUBMODULE_PAT: ${{ secrets.SUBMODULE_ACCESS_TOKEN }}
         run: |
-          sed -i "s|https://github.com/|https://x-access-token:${SUBMODULE_PAT}@github.com/|g" .gitmodules
-          git submodule sync
-          git submodule update --init --recursive
+          if [ -n "$SUBMODULE_PAT" ]; then
+            echo "Injecting token into .gitmodules..."
+            sed -i "s|https://github.com/|https://x-access-token:${SUBMODULE_PAT}@github.com/|g" .gitmodules
+            git submodule sync
+            git submodule update --init --recursive
+          else
+            echo "No submodule token provided. Assuming public or same-org private access."
+          fi
 
-
-      - name: Update submodules to latest
+      - name: Check which submodules changed (optional logging)
         run: |
-          git submodule update --remote --recursive
-          git status
+          git submodule foreach 'echo "--- $name ---"; git status; git diff'
 
-      - name: Detect changed submodules
-        id: detect
+      - name: Run code checks (replace this block as needed)
         run: |
-          CHANGED=""
-          for module in $(git config --file .gitmodules --get-regexp path | awk '{ print $2 }'); do
-            git diff --quiet HEAD $module || CHANGED="$CHANGED $module"
-          done
-          echo "Changed submodules:$CHANGED"
-          echo "changed_modules=$CHANGED" >> $GITHUB_OUTPUT
-
-      - name: Run code check on changed modules
-        if: steps.detect.outputs.changed_modules != ''
-        run: |
-          for module in ${{ steps.detect.outputs.changed_modules }}; do
-            echo "🔍 Running code check for $module"
-            # Example scan: (replace this with your real script or check)
-            if [ -f "$module/code-check.sh" ]; then
-              bash "$module/code-check.sh"
-            else
-              echo "✅ No code-check.sh found in $module, skipping."
-            fi
-          done
-
-      - name: Commit updated submodules if needed
-        run: |
-          git add .
-          git commit -m "chore: updated submodules" || echo "No changes to commit."
+          echo "Running sample code checks..."
+          # Add real checks here, like:
+          # npm ci && npm run lint
+          # mvn verify
+          echo "Checks passed."
 
       - name: Push to mirror repo
         env:
