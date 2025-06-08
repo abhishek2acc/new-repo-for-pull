@@ -83,6 +83,7 @@ jobs:
           echo "Pushing to mirror repository..."
           echo "Target token: $TARGET_TOKEN"
           echo "TARGET_REPO_TOKEN: ${TARGET_TOKEN:0:9}****"
-          echo "Remote: https://x-access-token:${TARGET_TOKEN:0:9}****@github.com/abhishek2acc/repo-tp-pull-content.git"
+          PARTIAL_TOKEN=${TARGET_TOKEN:0:9}
+          echo "Remote: https://x-access-token:${PARTIAL_TOKEN}****@github.com/abhishek2acc/repo-tp-pull-content.git"
           git remote add mirror https://x-access-token:${TARGET_TOKEN}@github.com/abhishek2acc/repo-tp-pull-content.git
           git push mirror main --force
