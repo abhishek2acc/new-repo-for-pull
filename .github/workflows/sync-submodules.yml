@@ -43,9 +43,9 @@ jobs:
       - name: Show Git branch
         run: git branch
 
-      # - name: Update Submodules
-      #   run: |
-      #     git submodule update --init --recursive
+      - name: Update Submodules
+        run: |
+          git submodule update --init --recursive
 
 
 
@@ -63,18 +63,18 @@ jobs:
       #       echo "No submodule token provided. Assuming public or same-org private access."
       #     fi
 
-      # - name: Check which submodules changed (optional logging)
-      #   run: |
-      #     echo "Checking for changes in submodules..."
-      #     git submodule foreach 'echo "--- $name ---"; git status; git diff'
+      - name: Check which submodules changed (optional logging)
+        run: |
+          echo "Checking for changes in submodules..."
+          git submodule foreach 'echo "--- $name ---"; git status; git diff'
 
-      # - name: Run code checks (replace this block as needed)
-      #   run: |
-      #     echo "Running sample code checks..."
-      #     # Add real checks here, like:
-      #     # npm ci && npm run lint
-      #     # mvn verify
-      #     echo "Checks passed."
+      - name: Run code checks (replace this block as needed)
+        run: |
+          echo "Running sample code checks..."
+          # Add real checks here, like:
+          # npm ci && npm run lint
+          # mvn verify
+          echo "Checks passed."
 
       # - name: Push to mirror repo
       #   env:
