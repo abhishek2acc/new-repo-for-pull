@@ -19,11 +19,11 @@ jobs:
       #     submodules: recursive
       #     token: ${{ secrets.GITHUB_TOKEN }}  # Only works if submodules are in same org/account.
 
-      # - name: Set Git identity
-      #   run: |
-      #     echo "Setting up Git identity..."
-      #     git config --global user.name "GitHub Action"
-      #     git config --global user.email "abhishekhsaini7@gmail.com"
+      - name: Set Git identity
+        run: |
+          echo "Setting up Git identity..."
+          git config --global user.name "GitHub Action"
+          git config --global user.email "abhishekhsaini7@gmail.com"
 
       # - name: Checkout Submodules
       #   uses: actions/checkout@v3
