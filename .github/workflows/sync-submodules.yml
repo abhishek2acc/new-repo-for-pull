@@ -1,4 +1,5 @@
 name: Sync Submodules and Mirror
+run: echo "Workflow triggered successfully!"
 
 on:
   push:
@@ -12,6 +13,7 @@ jobs:
 
     steps:
       - name: Checkout parent repo and submodules
+        run: echo "checking out parent repo and submodules..."
         uses: actions/checkout@v4
         with:
           submodules: recursive
