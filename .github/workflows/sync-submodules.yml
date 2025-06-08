@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
-          token: ${{ secrets.GITHUB_TOKEN }}  # Only works if submodules are in same org/account.
+          token: ${{ secrets.SUBMODULE_ACCESS_TOKEN }}  # Only works if submodules are in same org/account.
 
       - name: Set Git identity
         run: |
