@@ -13,17 +13,17 @@ jobs:
     steps:
       - name: Start workflow
         run: echo "Workflow triggered successfully!"
-      - name: Checkout parent repo and submodules
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-          token: ${{ secrets.GITHUB_TOKEN }}  # Only works if submodules are in same org/account.
+      # - name: Checkout parent repo and submodules
+      #   uses: actions/checkout@v4
+      #   with:
+      #     submodules: recursive
+      #     token: ${{ secrets.GITHUB_TOKEN }}  # Only works if submodules are in same org/account.
 
-      - name: Set Git identity
-        run: |
-          echo "Setting up Git identity..."
-          git config --global user.name "GitHub Action"
-          git config --global user.email "abhishekhsaini7@gmail.com"
+      # - name: Set Git identity
+      #   run: |
+      #     echo "Setting up Git identity..."
+      #     git config --global user.name "GitHub Action"
+      #     git config --global user.email "abhishekhsaini7@gmail.com"
 
       # - name: Checkout Submodules
       #   uses: actions/checkout@v3
@@ -40,37 +40,37 @@ jobs:
 
 
 
-      - name: Rewrite submodule URLs with token (if secret is set)
-        env:
-          SUBMODULE_PAT: ${{ secrets.SUBMODULE_ACCESS_TOKEN }}
-        run: |
-          echo "Checking for submodule access token..."
-          if [ -n "$SUBMODULE_PAT" ]; then
-            echo "Injecting token into .gitmodules..."
-            sed -i "s|https://github.com/|https://x-access-token:${SUBMODULE_PAT}@github.com/|g" .gitmodules
-            git submodule sync
-            git submodule update --init --recursive
-          else
-            echo "No submodule token provided. Assuming public or same-org private access."
-          fi
+      # - name: Rewrite submodule URLs with token (if secret is set)
+      #   env:
+      #     SUBMODULE_PAT: ${{ secrets.SUBMODULE_ACCESS_TOKEN }}
+      #   run: |
+      #     echo "Checking for submodule access token..."
+      #     if [ -n "$SUBMODULE_PAT" ]; then
+      #       echo "Injecting token into .gitmodules..."
+      #       sed -i "s|https://github.com/|https://x-access-token:${SUBMODULE_PAT}@github.com/|g" .gitmodules
+      #       git submodule sync
+      #       git submodule update --init --recursive
+      #     else
+      #       echo "No submodule token provided. Assuming public or same-org private access."
+      #     fi
 
-      - name: Check which submodules changed (optional logging)
-        run: |
-          echo "Checking for changes in submodules..."
-          git submodule foreach 'echo "--- $name ---"; git status; git diff'
+      # - name: Check which submodules changed (optional logging)
+      #   run: |
+      #     echo "Checking for changes in submodules..."
+      #     git submodule foreach 'echo "--- $name ---"; git status; git diff'
 
-      - name: Run code checks (replace this block as needed)
-        run: |
-          echo "Running sample code checks..."
-          # Add real checks here, like:
-          # npm ci && npm run lint
-          # mvn verify
-          echo "Checks passed."
+      # - name: Run code checks (replace this block as needed)
+      #   run: |
+      #     echo "Running sample code checks..."
+      #     # Add real checks here, like:
+      #     # npm ci && npm run lint
+      #     # mvn verify
+      #     echo "Checks passed."
 
-      - name: Push to mirror repo
-        env:
-          TARGET_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
-        run: |
-          echo "Pushing to mirror repository..."
-          git remote add mirror https://x-access-token:${{ secrets.TARGET_REPO_TOKEN }}@github.com/abhishek2acc/repo-tp-pull-content.git
-          git push mirror main --force
+      # - name: Push to mirror repo
+      #   env:
+      #     TARGET_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
+      #   run: |
+      #     echo "Pushing to mirror repository..."
+      #     git remote add mirror https://x-access-token:${{ secrets.TARGET_REPO_TOKEN }}@github.com/abhishek2acc/repo-tp-pull-content.git
+      #     git push mirror main --force
