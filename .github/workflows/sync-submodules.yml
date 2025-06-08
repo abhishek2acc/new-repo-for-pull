@@ -1,5 +1,4 @@
 name: Sync Submodules and Mirror
-run: echo "Workflow triggered successfully!"
 
 on:
   push:
@@ -12,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Start workflow
+        run: echo "Workflow triggered successfully!"
       - name: Checkout parent repo and submodules
         uses: actions/checkout@v4
         with:
