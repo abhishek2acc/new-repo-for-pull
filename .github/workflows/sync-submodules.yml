@@ -13,11 +13,11 @@ jobs:
     steps:
       - name: Start workflow
         run: echo "Workflow triggered successfully!"
-      # - name: Checkout parent repo and submodules
-      #   uses: actions/checkout@v4
-      #   with:
-      #     submodules: recursive
-      #     token: ${{ secrets.GITHUB_TOKEN }}  # Only works if submodules are in same org/account.
+      - name: Checkout parent repo and submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          token: ${{ secrets.GITHUB_TOKEN }}  # Only works if submodules are in same org/account.
 
       - name: Set Git identity
         run: |
