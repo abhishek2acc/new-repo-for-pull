@@ -19,7 +19,7 @@ jobs:
       - name: Set up Git identity
         run: |
           git config --global user.name "GitHub Action"
-          git config --global user.email "abhishek@github.com"
+          git config --global user.email "abhishekhsaini7@gmail.com"
 
       - name: Update submodules to latest
         run: |
