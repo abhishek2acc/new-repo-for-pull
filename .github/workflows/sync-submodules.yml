@@ -96,9 +96,9 @@ jobs:
           ACM_PASSWORD: ${{ secrets.MIRROR_PAT }}
         run: |
           git config --global user.name "abhishek2acc"
-          git config --global user.email "abheytanwer@gmail.com"
+          git config --global user.email "abhishek2acc"
           echo "TARGET_REPO_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}****"
-          git ls-remote "https://${{ secrets.TARGET_REPO_TOKEN }}@github.com/abhishek2acc/repo-tp-pull-content.git"
+          git ls-remote "https://${ACM_USERNAME}:${{ secrets.TARGET_REPO_TOKEN }}@github.com/abhishek2acc/repo-tp-pull-content.git"
           echo "Adobe Git remote test successful."
 
 
