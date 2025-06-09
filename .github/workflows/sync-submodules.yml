@@ -84,14 +84,22 @@ jobs:
         env:
           TARGET_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
 
+      - name: Test Adobe Git Remote
+        env:
+          ACM_USERNAME: ${{ secrets.GIT_USERNAME }}
+          ACM_PASSWORD: ${{ secrets.GIT_PASSWORD }}
+        run: |
+          git ls-remote "https://${ACM_USERNAME}:${ACM_PASSWORD}@github.com/abhishek2acc/repo-tp-pull-content.git"
+          echo "Adobe Git remote test successful."
+
+
       - name: Push to mirror repo
         env:
           TARGET_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
         run: |
           echo "Pushing to mirror repository..."
-          echo "Target token: $TARGET_TOKEN"
           echo "TARGET_REPO_TOKEN: ${TARGET_TOKEN:0:9}****"
           PARTIAL_TOKEN=${TARGET_TOKEN:0:9}
-          echo "Remote: https://x-access-token:${PARTIAL_TOKEN}****@github.com/abhishek2acc/repo-tp-pull-content.git"
+          echo "Remote: https://x-access-token:$PARTIAL_TOKEN****@github.com/abhishek2acc/repo-tp-pull-content.git"
           git remote add mirror https://x-access-token:${TARGET_TOKEN}@github.com/abhishek2acc/repo-tp-pull-content.git
           git push mirror main --force
