@@ -81,6 +81,7 @@ jobs:
           PARTIAL=${TARGET_TOKEN:0:9}
           echo "Target token prefix: ${PARTIAL}****"
           echo "Git remote set (token redacted in log)"
+          git ls-remote "https://${TARGET_TOKEN}@github.com/abhishek2acc/repo-tp-pull-content.git"
         env:
           TARGET_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
 
