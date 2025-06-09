@@ -76,6 +76,14 @@ jobs:
           # mvn verify
           echo "Checks passed."
 
+      - name: Print token prefix (safe)
+        run: |
+          PARTIAL=${TARGET_TOKEN:0:9}
+          echo "Target token prefix: ${PARTIAL}****"
+          echo "Git remote set (token redacted in log)"
+        env:
+          TARGET_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
+
       - name: Push to mirror repo
         env:
           TARGET_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
