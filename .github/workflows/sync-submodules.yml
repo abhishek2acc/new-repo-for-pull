@@ -90,8 +90,8 @@ jobs:
       - name: Set Another Git identity
         run: |
           echo "Setting up Another Git identity..."
-          git config --global user.name "abhishek2acc"
-          git config --global user.email "abhishek2acc"
+          git config user.name "abhishek2acc"
+          git config user.email "abhishek2acc"
 
       - name: Test Adobe Git Remote
         env:
@@ -102,7 +102,7 @@ jobs:
           PARTIAL_USER=${ACM_USERNAME:0:9}
           echo "Target token prefix: ${PARTIAL}****"
           echo "Target PARTIAL_USER prefix: ${PARTIAL_USER}****"
-          git ls-remote https://${ACM_USERNAME}:${ACM_PASSWORD}@github.com/abhishek2acc/repo-tp-pull-content.git
+          git ls-remote https://github.com/abhishek2acc/new-repo-for-pull.git
           echo "Adobe Git remote test successful."
 
 
