@@ -97,7 +97,7 @@ jobs:
         run: |
           git config --global user.name "abhishek2acc"
           git config --global user.email "abhishek2acc"
-          echo "TARGET_REPO_TOKEN: ${{ secrets.TARGET_REPO_TOKEN:0:9 }}****"
+          echo "TARGET_REPO_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }:0:9}****"
           git ls-remote "https://${{ secrets.TARGET_REPO_TOKEN }}@github.com/abhishek2acc/repo-tp-pull-content.git"
           echo "Adobe Git remote test successful."
 
