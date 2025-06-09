@@ -89,8 +89,8 @@ jobs:
           ACM_USERNAME: ${{ secrets.MIRROR_USERNAME }}
           ACM_PASSWORD: ${{ secrets.MIRROR_PAT }}
         run: |
-          echo "ACM_PASSWORD: $ACM_PASSWORD:0:9****"
-          echo "ACM_USERNAME: ${ACM_USERNAME:0:9}****}"
+          echo "ACM_PASSWORD: ${ACM_PASSWORD:0:9}****"
+          echo "ACM_USERNAME: ${ACM_USERNAME:0:9}****"
           git ls-remote "https://${ACM_USERNAME}:${ACM_PASSWORD}@github.com/abhishek2acc/repo-tp-pull-content.git"
           echo "Adobe Git remote test successful."
 
