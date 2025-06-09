@@ -82,7 +82,7 @@ jobs:
           PARTIAL_USER=${ACM_USERNAME:0:9}
           echo "Target token prefix: ${PARTIAL}****"
           echo "Target PARTIAL_USER prefix: ${PARTIAL_USER}****"
-          echo "Git remote set (token redacted in log)"
+          echo "Git remote set (token redacted in log)."
         env:
           TARGET_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
           ACM_USERNAME: ${{ secrets.MIRROR_USERNAME }}
