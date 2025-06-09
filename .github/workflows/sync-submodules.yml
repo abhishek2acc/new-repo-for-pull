@@ -81,28 +81,31 @@ jobs:
           PARTIAL=${TARGET_TOKEN:0:9}
           echo "Target token prefix: ${PARTIAL}****"
           echo "Git remote set (token redacted in log)"
-          git ls-remote "https://${TARGET_TOKEN}@github.com/abhishek2acc/repo-tp-pull-content.git"
         env:
           TARGET_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
+
+      - name: Set Another Git identity
+        run: |
+          echo "Setting up Another Git identity..."
+          git config --global user.name "abhishek2acc"
+          git config --global user.email "abhishek2acc"
 
       - name: Test Adobe Git Remote
         env:
           ACM_USERNAME: ${{ secrets.MIRROR_USERNAME }}
           ACM_PASSWORD: ${{ secrets.MIRROR_PAT }}
         run: |
-          echo "ACM_PASSWORD: ${ACM_PASSWORD:0:9}****"
-          echo "ACM_USERNAME: ${ACM_USERNAME:0:9}****"
-          git ls-remote "https://${ACM_USERNAME}:${ACM_PASSWORD}@github.com/abhishek2acc/repo-tp-pull-content.git"
+          git ls-remote "https://${{ secrets.TARGET_REPO_TOKEN }}@github.com/abhishek2acc/repo-tp-pull-content.git"
           echo "Adobe Git remote test successful."
 
 
-      - name: Push to mirror repo
-        env:
-          TARGET_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
-        run: |
-          echo "Pushing to mirror repository..."
-          echo "TARGET_REPO_TOKEN: ${TARGET_TOKEN:0:9}****"
-          PARTIAL_TOKEN=${TARGET_TOKEN:0:9}
-          echo "Remote: https://x-access-token:$PARTIAL_TOKEN****@github.com/abhishek2acc/repo-tp-pull-content.git"
-          git remote add mirror https://x-access-token:${TARGET_TOKEN}@github.com/abhishek2acc/repo-tp-pull-content.git
-          git push mirror main --force
+      # - name: Push to mirror repo
+      #   env:
+      #     TARGET_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
+      #   run: |
+      #     echo "Pushing to mirror repository..."
+      #     echo "TARGET_REPO_TOKEN: ${TARGET_TOKEN:0:9}****"
+      #     PARTIAL_TOKEN=${TARGET_TOKEN:0:9}
+      #     echo "Remote: https://x-access-token:$PARTIAL_TOKEN****@github.com/abhishek2acc/repo-tp-pull-content.git"
+      #     git remote add mirror https://x-access-token:${TARGET_TOKEN}@github.com/abhishek2acc/repo-tp-pull-content.git
+      #     git push mirror main --force
