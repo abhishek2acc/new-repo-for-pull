@@ -99,7 +99,7 @@ jobs:
           ACM_PASSWORD: ${{ secrets.TARGET_REPO_TOKEN }}
         run: |
           PARTIAL=${ACM_PASSWORD:0:9}
-          PARTIAL_USER=${ACM_USERNAME:0:9}
+          PARTIAL_USER=${ACM_USERNAME:0:12}
           echo "Target token prefix: ${PARTIAL}****"
           echo "Target PARTIAL_USER prefix: ${PARTIAL_USER}****"
           git ls-remote https://${ACM_USERNAME}:${ACM_PASSWORD}@github.com/abhishek2acc/repo-tp-pull-content.git
