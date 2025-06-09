@@ -123,7 +123,7 @@ jobs:
           TARGET_TOKEN: ${{ secrets.TARGET_REPO_TOKEN }}
         run: |
           echo "Pushing to mirror repository..."
-          git remote add mirror https://github.com/abhishek2acc/new-repo-for-pull.git
+          git remote add mirror https://${TARGET_TOKEN}@github.com/abhishek2acc/new-repo-for-pull.git
           git push mirror main --force
           echo "Push to mirror repository completed successfully."
 
